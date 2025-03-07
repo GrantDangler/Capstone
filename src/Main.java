@@ -8,6 +8,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         UserInfo user = new UserInfo();
+        SpendingTracker track = new SpendingTracker();
+        ExpenseTracker expenseTracker = new ExpenseTracker();
 
         // Ask for the username
         System.out.print("Enter your username: ");
@@ -74,6 +76,7 @@ public class Main {
 
                 //output a title to explain to user what the code is collecting
                 writer.println("===== Financial Details for " + username + " =====");
+                System.out.println("Enter yearly information:");
 
                 double yearlyIncome = getValidInput(scanner, "Yearly Income: ", writer);
                 user.setYearlyIncome(yearlyIncome);
@@ -113,7 +116,9 @@ public class Main {
 
         // Print financial summary
         if (user != null) {
-            SpendingTracker.budgetAllocation(user);
+            SpendingTracker.budgetAllocation(track, user);
+            expenseTracker.calculateMonthly(track.getFreeSpending(), track.getFullExpenses(),track.getSavings(),track.getInvestment());
+            DebtCalculator.askDebt(scanner, user, expenseTracker);
         }
         scanner.close();
     }

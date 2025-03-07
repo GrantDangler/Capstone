@@ -56,20 +56,23 @@ public class SavingsCalculator {
 
         return (Math.pow((1+(a/n)), m) - 1) * 100;
     }
+    
 
     //calculation for the future value of money depending on the present value, rate, years, and payments they will make
     //I will also use this to make recommendations on how much each person should invest and when they should
+    //recursive call
     public static double futureValueOfMoney(double PV, double rate, int years, double PMT) {
-        double r = rate / 100; // Convert rate to decimal
+        if (years == 0) {
+            return PV; // Base case: no more years left, return the present value
+        } else {
+            // Calculate the future value of the present value (PV) after 1 year
+            double futureValuePV = PV * (1 + rate / 100);
 
-        // Future value of the initial present value (PV) compounded over all years
-        double futureValuePV = PV * Math.pow(1 + r, years);
+            // Calculate the future value Cash Flows into things such as investments, bonds, etc.
+            double futureValuePMTs = PMT * (Math.pow(1 + rate / 100, years) - 1) / (rate / 100);
 
-        // Future value of the periodic payments (PMT) compounded over all years
-        double futureValuePMTs = PMT * (Math.pow(1 + r, years) - 1) / r;
-
-        // Total future value is the sum of both values
-        return futureValuePV + futureValuePMTs;
+            // Add the future value of the PV and PMTs, then call recursively for the next year
+            return futureValueOfMoney(futureValuePV + futureValuePMTs, rate, years - 1, PMT);
+        }
     }
-
 }

@@ -1,6 +1,54 @@
 public class SpendingTracker {
+
+    double savings;
+    double investment;
+    double freeSpending;
+    double fullExpenses;
+
+    public SpendingTracker(){
+        savings = 0.0;
+        investment = 0.0;
+        freeSpending = 0.0;
+        fullExpenses = 0.0;
+    }
+
+    public SpendingTracker(double savings, double investment, double freeSpending, double fullExpenses){
+        this.savings = savings;
+        this.investment = investment;
+        this.freeSpending = freeSpending;
+        this.fullExpenses = fullExpenses;
+    }
+
+    //set methods
+    public void setSavings(double savings){
+        this.savings = savings;
+    }
+    public void setInvestment(double investment){
+        this.investment = investment;
+    }
+    public void setFreeSpending(double freeSpending){
+        this.freeSpending = freeSpending;
+    }
+    public void setFullExpenses(double fullExpenses){
+        this.fullExpenses = fullExpenses;
+    }
+
+    //get methods
+    public double getSavings(){
+        return savings;
+    }
+    public double getInvestment(){
+        return investment;
+    }
+    public double getFreeSpending(){
+        return freeSpending;
+    }
+    public double getFullExpenses(){
+        return fullExpenses;
+    }
+
     //This is an overall budget people should strive to set for the year for a MINIMUM
-    public static void budgetAllocation(UserInfo user){
+    public static void budgetAllocation(SpendingTracker track, UserInfo user){
         // Calculate budget with all income sources
         double budget = user.getYearlyIncome() + user.getBonusIncome();
 
@@ -40,9 +88,16 @@ public class SpendingTracker {
             freeSpending = budget - (essentialExpense + savings + investment);
         }
 
+        track.setSavings(savings);
+        track.setInvestment(investment);
+        track.setFreeSpending(freeSpending);
+
+        double fullExpense = user.getInsuranceExpenses() + user.getTaxes() + user.getHousingMortgage() + user.getUtilitiesExpenses() + user.getSchoolPayments() + user.getTransportationExpenses() + user.getOtherExpenses();
+        track.setFullExpenses(fullExpense);
+
         // Output the recommendations
-        System.out.printf("Recommended savings: $%.2f%n", savings);
-        System.out.printf("Recommended investment: $%.2f%n", investment);
-        System.out.printf("Recommended free spending amount: $%.2f%n", freeSpending);
+        System.out.printf("Recommended savings (yearly): $%.2f%n", savings);
+        System.out.printf("Recommended investment (yearly): $%.2f%n", investment);
+        System.out.printf("Recommended free spending amount (yearly): $%.2f%n", freeSpending);
     }
 }
