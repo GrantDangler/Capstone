@@ -35,8 +35,13 @@ public class GoalPlanner {
     private void loadGoalsFromFile(String fileName) {
         File file = new File(fileName);
         if (!file.exists()) {
-            System.out.println("No saved goals found.");
-            return;
+            try {
+                file.createNewFile();  // This creates the file if it doesn't exist
+                System.out.println("New file created: " + fileName);
+            } catch (IOException e) {
+                System.out.println("Error creating file: " + e.getMessage());
+                return;
+            }
         }
         try (Scanner fileScanner = new Scanner(file)) {
             while (fileScanner.hasNextLine()) {
@@ -55,8 +60,9 @@ public class GoalPlanner {
         }
     }
 
+
     public void saveGoalsToFile(String fileName) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, false))) {  // 'false' ensures file is overwritten
             for (Goal goal : goals) {
                 writer.println(goal.name + "," + goal.targetAmount + "," + goal.currentSavings + "," + goal.monthlyContribution);
             }

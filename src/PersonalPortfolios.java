@@ -143,7 +143,6 @@ public class PersonalPortfolios {
         SpendingTracker.budgetAllocation(track, user);
         expenseTracker.calculateMonthly(track.getFreeSpending(), track.getFullExpenses(),track.getSavings(),track.getInvestment());
         DebtCalculator.askDebt(scanner, user, expenseTracker);
-        scanner.close();
     }
 
     private static double getValidInput(Scanner scanner, String prompt, PrintWriter writer) {
