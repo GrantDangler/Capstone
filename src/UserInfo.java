@@ -155,7 +155,7 @@ public class UserInfo {
         System.out.println();
 
         // Calculate the expense percentage
-        double expensePercentage = totalYearlyExpenses / getYearlyIncome();
+        double expensePercentage = totalYearlyExpenses / (getYearlyIncome() + getBonusIncome());
 
         // Debugging output to check the percentage
         System.out.printf("Expense Percentage: " + "%.2f", expensePercentage * 100);

@@ -6,29 +6,33 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         UserInfo user = new UserInfo();
         PersonalPortfolios portfolio = new PersonalPortfolios();
-        GoalPlanner goals = new GoalPlanner();
-
 
         // Ask for the username
         System.out.print("Enter your username: ");
         String username = scanner.nextLine();
         user.setUserName(username);
-        String file = username + "_financial_data.txt";
-        File userFile = new File(file);
 
-        //cleaned up main in order to be more organized and easier to read
-        if(userFile.exists()) {
+        String financialFile = username + "_financial_data.txt";
+        File userFile = new File(financialFile);
+
+        // Check if financial data exists, load or create new
+        if (userFile.exists()) {
             portfolio.downloadExisting(username);
-        }
-        else {
+        } else {
             portfolio.createNew(username);
         }
 
+        // Initialize GoalPlanner with user-specific goal file
+        String goalFile = username + "_goals.txt";
+        GoalPlanner goals = new GoalPlanner(goalFile);
+
+        // Ask the user if they want to manage goals
         System.out.println("\nWould you like to manage your financial goals? (Yes/No)");
         while (true) {
             String response = scanner.nextLine();
             if (response.equalsIgnoreCase("Yes")) {
                 goals.manageGoals(scanner);
+                goals.saveGoalsToFile(goalFile); // Save after managing
                 break;
             } else if (response.equalsIgnoreCase("No")) {
                 System.out.println("Okay! You can manage goals later.");

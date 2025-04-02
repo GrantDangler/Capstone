@@ -67,7 +67,7 @@ public class SpendingTracker {
             essentialExpense = user.getInsuranceExpenses() + user.getTaxes() + user.getHousingMortgage() + user.getUtilitiesExpenses() + user.getSchoolPayments() + user.getTransportationExpenses() + user.getOtherExpenses();
             savings = (budget - essentialExpense) * 0.55;
             investment = (budget - essentialExpense) * 0.23;
-            freeSpending = budget - essentialExpense + savings + investment;
+            freeSpending = budget - (essentialExpense + savings + investment);
         } else if (expenseCategory == 4) {
             essentialExpense = user.getInsuranceExpenses() + user.getTaxes() + user.getHousingMortgage() + user.getUtilitiesExpenses() + user.getSchoolPayments() + user.getTransportationExpenses() + user.getOtherExpenses();
             savings = (budget - essentialExpense) * 0.54;
