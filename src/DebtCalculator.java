@@ -19,56 +19,88 @@ public class DebtCalculator {
     }
 
     public static void askDebt(Scanner scnr, UserInfo user, ExpenseTracker expenseTracker) {
-        UserInfo findDebt = new UserInfo();
-        System.out.println();
-        System.out.println("===== Debt Calculator =====");
+        System.out.println("\n===== Debt Calculator =====");
         List<Debt> debts = new ArrayList<>();
-        double debtAmount = 0.0;
-        boolean addingDebts = true;
 
-        while (addingDebts) {
-                for(int i = 0; i < 100; i++) { //100 because it will exit the for loop no matter what once the person types 'done'
-                    try {
-                        System.out.println("Enter the name of the debt [Mortgage, Transportation, School]. Type 'done' to finish, or 'other' to enter a new debt that is not listed: ");
-                        String name = scnr.next();
-                        if (name.equalsIgnoreCase("done")) {
-                            addingDebts = false;
-                            break;
-                        }
+        while (true) {  // Allow user to add multiple debts
+            String name;
+            while (true) {  // Loop until valid debt type is entered
+                System.out.println("\nEnter the name of the debt [Mortgage, Transportation, School].");
+                System.out.println("Type 'done' to finish, or 'other' to enter a new debt that is not listed: ");
+                name = scnr.next();
 
-                        if (name.equalsIgnoreCase("Mortgage")) {
-                            debtAmount = user.getHousingMortgage();
-                            System.out.println("Mortgage Debt Amount: " + debtAmount);
-                        } else if (name.equalsIgnoreCase("Transportation")) {
-                            debtAmount = user.getTransportationExpenses();
-                            System.out.println("Transportation Debt Amount: " + debtAmount);
-                        } else if (name.equalsIgnoreCase("School")) {
-                            debtAmount = user.getSchoolPayments();
-                            System.out.println("School Debt Amount: " + debtAmount);
-                        } else if (name.equalsIgnoreCase("Other")) {
-                            System.out.println("Enter the total debt amount: ");
-                            debtAmount = scnr.nextDouble();
-                            System.out.println(debtAmount);
-                        }
-                        System.out.println("Enter the annual interest rate (in %) for " + name + ": ");
-                        double interestRate = scnr.nextDouble();
+                if (name.equalsIgnoreCase("Mortgage") ||
+                        name.equalsIgnoreCase("Transportation") ||
+                        name.equalsIgnoreCase("School") ||
+                        name.equalsIgnoreCase("Other") ||
+                        name.equalsIgnoreCase("done")) {
+                    break; // Valid input, exit loop
+                } else {
+                    System.out.println("Invalid input. Please enter one of the listed options.");
+                }
+            }
 
-                        System.out.println("Enter your planned monthly payment for " + name + ": ");
-                        double monthlyPayment = scnr.nextDouble();
+            if (name.equalsIgnoreCase("done")) {
+                break; // Exit loop if user is done entering debts
+            }
 
-                        debts.add(new Debt(name, debtAmount, interestRate, monthlyPayment));
-                    } catch (Exception e) {
-                        System.out.println("Incorrect debt type entered. Please try again.");
-                        scnr.next();
-                        i--;
+            double debtAmount = 0.0;
+
+            if (name.equalsIgnoreCase("Mortgage")) {
+                debtAmount = user.getHousingMortgage();
+                System.out.println("Mortgage Debt Amount: $" + debtAmount);
+            } else if (name.equalsIgnoreCase("Transportation")) {
+                debtAmount = user.getTransportationExpenses();
+                System.out.println("Transportation Debt Amount: $" + debtAmount);
+            } else if (name.equalsIgnoreCase("School")) {
+                debtAmount = user.getSchoolPayments();
+                System.out.println("School Debt Amount: $" + debtAmount);
+            } else if (name.equalsIgnoreCase("Other")) {
+                while (true) { // Ensure valid numeric input for debt amount
+                    System.out.print("Enter the total debt amount: $");
+                    if (scnr.hasNextDouble()) {
+                        debtAmount = scnr.nextDouble();
+                        break;
+                    } else {
+                        System.out.println("Invalid amount. Please enter a valid number.");
+                        scnr.next(); // Clear invalid input
                     }
                 }
-                break;
             }
 
-            for (Debt debt : debts) {
-                calculateDebtRepayment(debt);
+            double interestRate;
+            while (true) { // Ensure valid numeric input for interest rate
+                System.out.print("Enter the annual interest rate (in %) for " + name + ": ");
+                if (scnr.hasNextDouble()) {
+                    interestRate = scnr.nextDouble();
+                    break;
+                } else {
+                    System.out.println("Invalid interest rate. Please enter a valid number.");
+                    scnr.next(); // Clear invalid input
+                }
             }
+
+            double monthlyPayment;
+            while (true) { // Ensure valid numeric input for monthly payment
+                System.out.print("Enter your planned monthly payment for " + name + ": $");
+                if (scnr.hasNextDouble()) {
+                    monthlyPayment = scnr.nextDouble();
+                    break;
+                } else {
+                    System.out.println("Invalid monthly payment. Please enter a valid number.");
+                    scnr.next(); // Clear invalid input
+                }
+            }
+
+            debts.add(new Debt(name, debtAmount, interestRate, monthlyPayment));
+            System.out.println(name + " debt added successfully!\n");
+        }
+
+        // Calculate repayment for all entered debts
+        System.out.println("\n===== Debt Repayment Summary =====");
+        for (Debt debt : debts) {
+            calculateDebtRepayment(debt);
+        }
     }
 
     // Calculates the number of months required to repay debt
