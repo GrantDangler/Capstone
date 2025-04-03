@@ -104,7 +104,13 @@ public class GoalPlanner {
             System.out.println("3. Update an existing goal");
             System.out.println("4. Exit goal management");
             System.out.print("Choose an option (1-4): ");
-            int choice = scanner.nextInt();
+            int choice;
+            while (!scanner.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number (1-4).");
+                scanner.next(); // Discard invalid input
+                System.out.print("Choose an option (1-4): ");
+            }
+            choice = scanner.nextInt();
             scanner.nextLine();  // Consume the newline character
 
             if (choice == 1) {
