@@ -1,0 +1,13 @@
+===== Financial Details for Gdan =====
+Yearly Income: 100000.0
+Payday Amount: 21000.0
+Bonus Income: 30000.0
+Housing/Rent Expenses: 13000.0
+Utilities Expenses: 1200.0
+School Payments: 7000.0
+Transportation Expenses: 1000.0
+Insurance Expenses: 760.0
+Taxes: 3200.0
+Other Expenses: 10000.0
+Current Savings: 50000.0
+Current Investments: 21000.0
