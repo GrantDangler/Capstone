@@ -6,10 +6,9 @@ import java.util.Scanner;
 
 public class PersonalPortfolios {
 
-    public void downloadExisting(String username) {
+    public void downloadExisting(String username, ExpenseTracker expenseTracker) {
         Scanner scanner = new Scanner(System.in);
         SpendingTracker track = new SpendingTracker();
-        ExpenseTracker expenseTracker = new ExpenseTracker();
         UserInfo user = new UserInfo();
         String file = username + "_financial_data.txt";
 
@@ -76,7 +75,7 @@ public class PersonalPortfolios {
 
             if (update.equals("yes")) {
                 userFile.delete(); // Delete existing file before creating a new one
-                createNew(username); // Call createNew to re-enter data
+                createNew(username, expenseTracker); // Call createNew to re-enter data
                 break;  // Exit the loop after handling new data creation
             }
             else if (update.equals("no")) {
@@ -90,10 +89,9 @@ public class PersonalPortfolios {
         }
     }
 
-    public void createNew(String username) {
+    public void createNew(String username, ExpenseTracker expenseTracker) {
         Scanner scanner = new Scanner(System.in);
         SpendingTracker track = new SpendingTracker();
-        ExpenseTracker expenseTracker = new ExpenseTracker();
         UserInfo user = new UserInfo();
         String file2 = username + "_financial_data.txt";
 

@@ -14,12 +14,13 @@ public class Main {
 
         String financialFile = username + "_financial_data.txt";
         File userFile = new File(financialFile);
+        ExpenseTracker expenses = new ExpenseTracker();
 
         // Check if financial data exists, load or create new
         if (userFile.exists()) {
-            portfolio.downloadExisting(username);
+            portfolio.downloadExisting(username, expenses);
         } else {
-            portfolio.createNew(username);
+            portfolio.createNew(username, expenses);
         }
 
         // Initialize GoalPlanner with user-specific goal file
@@ -41,5 +42,42 @@ public class Main {
                 System.out.println("Invalid input. Please enter 'Yes' or 'No'.");
             }
         }
+
+        //display updated freeSpending if they have goals
+        GoalPlanner.displayAdjustedFreeSpending(username, goalFile, expenses);
+
+        //display screen
+        double totalContributions = goals.getAllGoals().stream().mapToDouble(g -> g.monthlyContribution).sum();
+        new CapstoneDashboard(username, expenses, totalContributions);
+
+        //explain savings
+        double yearlySavings = expenses.getMonthlySavings()*12;
+        System.out.println();
+        System.out.print("If you were to follow recommendations of your savings, with the National Average interest rate (0.41% APY), in 20 years you will have");
+        SavingsCalculator.showProjection(yearlySavings, 20, 0.0041);
+        double apy = 0.0;
+        int years = 0;
+
+        while (true) {
+            try {
+                System.out.print("\nWhat APY do you want to apply to the calculation (e.g., 0.02 for 2%)? ");
+                apy = scanner.nextDouble();
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid decimal number for APY.");
+                scanner.next(); // Clear invalid input
+            }
+        }
+        while (true) {
+            try {
+                System.out.print("How many years would you like to save for? ");
+                years = scanner.nextInt();
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid whole number for years.");
+                scanner.next(); // Clear invalid input
+            }
+        }
+        SavingsCalculator.showProjection(yearlySavings, years, apy);
     }
 }
