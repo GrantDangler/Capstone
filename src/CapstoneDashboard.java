@@ -4,15 +4,12 @@ import java.awt.event.*;
 
 public class CapstoneDashboard extends JFrame {
 
-    // Labels to display financial metrics
     private JLabel incomeLabel, savingsLabel, freeSpendingLabel, investmentLabel;
     private JLabel adjustedSpendingLabel, goalContributionLabel, projectionResultLabel;
 
-    // Input components for user-defined projection
     private JButton projectionButton;
     private JTextField apyField, yearsField;
 
-    // Reference to the user's financial data
     private ExpenseTracker expenses;
 
     // Constructor
@@ -40,8 +37,8 @@ public class CapstoneDashboard extends JFrame {
         projectionResultLabel = createLabel("Enter APY and years, then click below:");
 
         // Input fields for user-defined APY and number of years
-        apyField = new JTextField("0.0041"); // Default: 0.41% APY
-        yearsField = new JTextField("20");   // Default: 20 years
+        apyField = new JTextField("0.0041");
+        yearsField = new JTextField("20");
 
         // Button to run the savings projection
         projectionButton = new JButton("Run Projection");
@@ -74,8 +71,8 @@ public class CapstoneDashboard extends JFrame {
         add(yearsField);
         add(projectionButton);
 
-        // Configure window behavior
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // Finish when window closed
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
@@ -84,7 +81,7 @@ public class CapstoneDashboard extends JFrame {
         JLabel label = new JLabel(text);
         label.setForeground(Color.white);
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font("Times", Font.PLAIN, 14)); // You may want to change "Times" to "SansSerif" if Times is unavailable
+        label.setFont(new Font("Times", Font.PLAIN, 14));
         return label;
     }
 }
