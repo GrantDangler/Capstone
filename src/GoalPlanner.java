@@ -122,18 +122,22 @@ public class GoalPlanner {
             System.out.println("No goals set yet.");
             return;
         }
+
         Node current = head;
         while (current != null) {
             Goal goal = current.goal;
             double remainingAmount = goal.targetAmount - goal.currentSavings;
             double timeLeft = (goal.monthlyContribution > 0) ? remainingAmount / goal.monthlyContribution : -1;
+
             System.out.println(goal.name + ": $" + goal.currentSavings + " saved out of $" + goal.targetAmount);
             System.out.print("Estimated time to reach goal: ");
             if (timeLeft < 0) {
                 System.out.println("Not achievable (monthly contribution is $0).\n");
             } else {
                 System.out.printf("%.0f months\n", timeLeft);
+                System.out.printf("You must contribute $%.2f/month for %.0f months to reach this goal.\n\n", goal.monthlyContribution, timeLeft);
             }
+
             current = current.next;
         }
     }
@@ -180,6 +184,7 @@ public class GoalPlanner {
                 String goalName = scanner.nextLine();
                 Node current = head;
                 Goal goalToUpdate = null;
+
                 while (current != null) {
                     if (current.goal.name.equalsIgnoreCase(goalName)) {
                         goalToUpdate = current.goal;
@@ -187,12 +192,13 @@ public class GoalPlanner {
                     }
                     current = current.next;
                 }
+
                 if (goalToUpdate == null) {
                     System.out.println("Goal not found.");
                 } else {
                     System.out.println("What would you like to update?");
                     System.out.println("1. Update current savings");
-                    System.out.println("2. Update monthly contribution");
+                    System.out.println("2. Update timeline (months remaining)");
                     System.out.print("Choose an option (1-2): ");
                     int updateChoice = scanner.nextInt();
                     scanner.nextLine();
@@ -203,10 +209,12 @@ public class GoalPlanner {
                         goalToUpdate.updateSavings(savingsUpdate);
                         System.out.println("Current savings updated successfully.");
                     } else if (updateChoice == 2) {
-                        System.out.print("Enter the new monthly contribution: ");
-                        double newContribution = scanner.nextDouble();
+                        System.out.print("Enter the new number of months remaining to reach this goal: ");
+                        int newMonths = scanner.nextInt();
+                        double remaining = goalToUpdate.targetAmount - goalToUpdate.currentSavings;
+                        double newContribution = (newMonths > 0) ? remaining / newMonths : 0;
                         goalToUpdate.updateContribution(newContribution);
-                        System.out.println("Monthly contribution updated successfully.");
+                        System.out.printf("New monthly contribution set to: $%.2f/month to reach the goal in %d months.\n", newContribution, newMonths);
                     } else {
                         System.out.println("Invalid option.");
                     }
