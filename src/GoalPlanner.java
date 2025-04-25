@@ -129,7 +129,7 @@ public class GoalPlanner {
             double remainingAmount = goal.targetAmount - goal.currentSavings;
             double timeLeft = (goal.monthlyContribution > 0) ? remainingAmount / goal.monthlyContribution : -1;
 
-            System.out.println(goal.name + ": $%.2f\n" + goal.currentSavings + " saved out of $%.2f\n" + goal.targetAmount);
+            System.out.println(goal.name + ": $" + goal.currentSavings + " saved out of $" + goal.targetAmount);
             System.out.print("Estimated time to reach goal: ");
             if (timeLeft < 0) {
                 System.out.println("Not achievable (monthly contribution is $0).\n");
