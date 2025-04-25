@@ -129,7 +129,7 @@ public class GoalPlanner {
             double remainingAmount = goal.targetAmount - goal.currentSavings;
             double timeLeft = (goal.monthlyContribution > 0) ? remainingAmount / goal.monthlyContribution : -1;
 
-            System.out.println(goal.name + ": $" + goal.currentSavings + " saved out of $" + goal.targetAmount);
+            System.out.println(goal.name + ": $%.2f\n" + goal.currentSavings + " saved out of $%.2f\n" + goal.targetAmount);
             System.out.print("Estimated time to reach goal: ");
             if (timeLeft < 0) {
                 System.out.println("Not achievable (monthly contribution is $0).\n");
@@ -272,14 +272,12 @@ public class GoalPlanner {
             else if (adjustedFreeSpending > 0) {
                 System.out.print("** WARNING YOUR MONTHLY SPENDING IS VERY LOW **");
                 System.out.println("\n===== Adjusted Free Spending Overview =====");
-                System.out.println("\n===== Adjusted Free Spending Overview =====");
                 System.out.printf("Original Monthly Free Spending: $%.2f\n", originalFreeSpending);
                 System.out.printf("Total Monthly Goal Contributions: $%.2f\n", totalContributions);
                 System.out.printf("Adjusted Monthly Free Spending: $%.2f\n", adjustedFreeSpending);
             }
             else{
                 System.out.print("** WARNING YOUR MONTHLY SPENDING IS NEGATIVE **");
-                System.out.println("\n===== Adjusted Free Spending Overview =====");
                 System.out.println("\n===== Adjusted Free Spending Overview =====");
                 System.out.printf("Original Monthly Free Spending: $%.2f\n", originalFreeSpending);
                 System.out.printf("Total Monthly Goal Contributions: $%.2f\n", totalContributions);
